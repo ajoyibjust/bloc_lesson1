@@ -1,0 +1,24 @@
+name: bloc_lesson
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  carousel_slider: ^5.0.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  http: ^1.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
