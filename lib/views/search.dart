@@ -7,7 +7,7 @@ import '../blocs/product/product_event.dart';
 import '../blocs/product/product_state.dart';
 
 class Search extends StatefulWidget {
-  Search({super.key});
+  const Search({super.key});
 
   @override
   State<Search> createState() => _SearchState();
@@ -16,12 +16,6 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final TextEditingController _controller = TextEditingController();
   Timer? _debounceTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProductsBloc>().add(ProductsFetch(id: 0, name: ""));
-  }
 
   void _onSearchChanged(String query) {
     _debounceTimer?.cancel();

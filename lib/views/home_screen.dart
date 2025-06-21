@@ -1,5 +1,4 @@
 import 'package:bloc_lesson/blocs/product/product_bloc.dart';
-import 'package:bloc_lesson/blocs/product/product_event.dart';
 import 'package:bloc_lesson/blocs/product/product_state.dart';
 import 'package:bloc_lesson/views/search.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProductsBloc>().add(ProductsFetch(id: 1, name: "."));
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,10 +6,10 @@ import 'product_event.dart';
 import 'product_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductsRepositoryImpl impl;
-  List<ProductModel> allProducts = [];
+  final ProductsRepository repository;
+  List<ProductModel> _allProducts = [];
 
-  ProductsBloc(this.impl) : super(ProductsLoading()) {
+  ProductsBloc(this.repository) : super(ProductsLoading()) {
     on<ProductsFetch>(_onFetch);
     on<ProductsSearch>(_onSearch);
   }
@@ -17,29 +17,26 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   Future<void> _onFetch(ProductsFetch event, Emitter<ProductsState> emit) async {
     emit(ProductsLoading());
     try {
-      allProducts = await impl.fetchProduct();
-      emit(ProductsSuccess(allProducts));
+      _allProducts = await repository.getAllProducts();
+      emit(ProductsSuccess(_allProducts));
     } catch (e) {
       emit(ProductsFailure(e.toString()));
     }
   }
 
   void _onSearch(ProductsSearch event, Emitter<ProductsState> emit) {
-    if (allProducts.isEmpty) {
-      emit(ProductsSuccess([]));
-      return;
-    }
-    if (event.query.trim().isEmpty) {
-      emit(ProductsSuccess(List.from(allProducts)));
+    final query = event.query.trim().toLowerCase();
+
+    if (query.isEmpty) {
+      emit(ProductsSuccess(_allProducts));
       return;
     }
 
-    final filtered = allProducts.where((product) {
+    final filtered = _allProducts.where((product) {
       final title = product.title?.toLowerCase() ?? '';
-      final query = event.query.toLowerCase().trim();
-      final contains = title.contains(query);
-      return contains;
+      return title.contains(query);
     }).toList();
-    emit(ProductsSuccess(List.from(filtered)));
+
+    emit(ProductsSuccess(filtered));
   }
 }
